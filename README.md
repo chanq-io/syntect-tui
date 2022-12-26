@@ -1,4 +1,4 @@
-# syntect-tui
+# syntect-tui [![Build Status](https://app.travis-ci.com/chanq-io/syntect-tui.svg?branch=main)](https://app.travis-ci.com/chanq-io/syntect-tui)
 A lightweight translation layer between [syntect](https://github.com/trishume/syntect) and
 [tui-rs](https://github.com/fdehau/tui-rs) style types. If you're building a CLI app with a UI powered by tui.rs and need syntax highlighting, then you may find this crate useful!
 

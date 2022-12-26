@@ -1,5 +1,6 @@
 # syntect-tui
-A lightweight translation layer between syntect.rs and tui.rs style types. If you're building a CLI app with a UI powered by tui.rs and need syntax highlighting, then you may find this crate useful!
+A lightweight translation layer between [syntect](https://github.com/trishume/syntect) and
+[tui-rs](https://github.com/fdehau/tui-rs) style types. If you're building a CLI app with a UI powered by tui.rs and need syntax highlighting, then you may find this crate useful!
 
 Given the limited scope of this crate I do not have any plans to extend its functionality any further, but am open to contributions. Feel free to fork and submit a pull request.
 
@@ -14,7 +15,9 @@ syntect-tui = "1.0"
 For more usage information read the [docs](https://docs.rs/syntect-tui/latest/syntect_tui/)
 
 ## Example Code
-Building upon [syntect's simple example](https://github.com/trishume/syntect#example-code), here's a snippet that parses some rust code, highlights it using syntect and converts it into [tui::text::Spans](https://docs.rs/tui/0.10.0/tui/text/struct.Spans.html) ready for rendering in a tui appliction:
+Building upon [syntect's simple example](https://github.com/trishume/syntect#example-code), here's a
+snippet that parses some rust code, highlights it using syntect and converts it into
+[tui::text::Spans](https://docs.rs/tui/latest/tui/text/struct.Spans.html) ready for rendering in a tui appliction:
 ```
 use syntect::easy::HighlightLines;
 use syntect::parsing::SyntaxSet;

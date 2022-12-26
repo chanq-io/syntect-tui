@@ -5,7 +5,7 @@ A lightweight translation layer between [syntect](https://github.com/trishume/sy
 Given the limited scope of this crate I do not have any plans to extend its functionality any further, but am open to contributions. Feel free to fork and submit a pull request.
 
 ## Getting Started
-`syntect-tui` is [available on crates.io](todo). You can install it by adding the following line to your `Cargo.toml`:
+`syntect-tui` is [available on crates.io](https://crates.io/crates/syntect-tui). You can install it by adding the following line to your `Cargo.toml`:
 
 ```
 syntect-tui = "1.0"

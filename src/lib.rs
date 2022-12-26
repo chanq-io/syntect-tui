@@ -1,23 +1,31 @@
 use custom_error::custom_error;
 use syntect::highlighting::{Color as SyntectColour, FontStyle, Style as SyntectStyle};
 use tui::style::{Color as TuiColour, Modifier, Style as TuiStyle};
+use tui::text::Span;
 
 custom_error! {
     #[derive(PartialEq)]
-    SynTuiError
+    pub SynTuiError
     UnknownFontStyle { bits: u8 } = "Unable to convert syntect::FontStyle into tui::Modifier: unsupported bits ({bits}) value.",
 }
 
-fn translate_style(syntect_style: SyntectStyle) -> Result<TuiStyle, SynTuiError> {
-    Ok(TuiStyle::default()
-        .fg(translate_colour(syntect_style.foreground))
-        .bg(translate_colour(syntect_style.background))
-        .add_modifier(translate_font_style(syntect_style.font_style)?))
+pub fn into_span<'a>((style, content): (SyntectStyle, &'a str)) -> Result<Span<'a>, SynTuiError> {
+    Ok(Span::styled(String::from(content), translate_style(style)?))
 }
 
-fn translate_colour(syntect_color: SyntectColour) -> TuiColour {
+fn translate_style(syntect_style: SyntectStyle) -> Result<TuiStyle, SynTuiError> {
+    Ok(TuiStyle {
+        fg: translate_colour(syntect_style.foreground),
+        bg: translate_colour(syntect_style.background),
+        add_modifier: translate_font_style(syntect_style.font_style)?,
+        sub_modifier: Modifier::empty(),
+    })
+}
+
+fn translate_colour(syntect_color: SyntectColour) -> Option<TuiColour> {
     match syntect_color {
-        SyntectColour { r, g, b, .. } => TuiColour::Rgb(r, g, b),
+        SyntectColour { r, g, b, a } if a > 0 => Some(TuiColour::Rgb(r, g, b)),
+        _ => None,
     }
 }
 
@@ -58,6 +66,28 @@ mod tests {
     }
 
     #[test]
+    fn can_convert_to_span() {
+        let (r, g, b) = (012_u8, 123_u8, 234_u8);
+        let style = SyntectStyle {
+            font_style: FontStyle::UNDERLINE,
+            foreground: fake_syntect_colour(r, g, b, 128),
+            background: fake_syntect_colour(g, b, r, 128),
+        };
+        let content = "syntax";
+        let expected = Ok(Span {
+            content: std::borrow::Cow::Owned(String::from(content)),
+            style: TuiStyle {
+                fg: Some(TuiColour::Rgb(r, g, b)),
+                bg: Some(TuiColour::Rgb(g, b, r)),
+                add_modifier: Modifier::UNDERLINED,
+                sub_modifier: Modifier::empty(),
+            },
+        });
+        let actual = into_span((style, content));
+        assert_eq!(expected, actual);
+    }
+
+    #[test]
     fn translate_style_ok() {
         let (r, g, b) = (012_u8, 123_u8, 234_u8);
         let input = SyntectStyle {
@@ -86,12 +116,14 @@ mod tests {
         assert_eq!(expected, actual);
     }
 
-    #[test]
-    fn check_translate_colour() {
-        let input = fake_syntect_colour(012, 123, 234, 128);
-        let expected = TuiColour::Rgb(012, 123, 234);
-        let actual = translate_colour(input);
-        assert_eq!(expected, actual);
+    #[rstest]
+    #[case::with_alpha(
+        fake_syntect_colour(012, 123, 234, 128),
+        Some(TuiColour::Rgb(012, 123, 234))
+    )]
+    #[case::without_alpha(fake_syntect_colour(012, 123, 234, 0), None)]
+    fn check_translate_colour(#[case] input: SyntectColour, #[case] expected: Option<TuiColour>) {
+        assert_eq!(expected, translate_colour(input));
     }
 
     #[rstest]

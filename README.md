@@ -1,7 +1,7 @@
 # syntect-tui
 A lightweight translation layer between syntect.rs and tui.rs style types. If you're building a CLI app with a UI powered by tui.rs and need syntax highlighting, then you may find this crate useful!
 
-Given the limited scope of this crate I do have any plans to extend its functionality any further, but am open to contributions. Feel free to fork and submit a pull request.
+Given the limited scope of this crate I do not have any plans to extend its functionality any further, but am open to contributions. Feel free to fork and submit a pull request.
 
 ## Getting Started
 `syntect-tui` is [available on crates.io](todo). You can install it by adding the following line to your `Cargo.toml`:
@@ -9,6 +9,9 @@ Given the limited scope of this crate I do have any plans to extend its function
 ```
 syntect-tui = "1.0"
 ```
+
+## Docs
+For more usage information read the [docs](https://docs.rs/syntect-tui/latest/syntect_tui/)
 
 ## Example Code
 Building upon [syntect's simple example](https://github.com/trishume/syntect#example-code), here's a snippet that parses some rust code, highlights it using syntect and converts it into [tui::text::Spans](https://docs.rs/tui/0.10.0/tui/text/struct.Spans.html) ready for rendering in a tui appliction:
@@ -38,4 +41,4 @@ for line in LinesWithEndings::from(s) { // LinesWithEndings enables use of newli
 ```
 
 ## Licence & Acknowledgements
-Thanks to [trishume](https://github.com/trishume) and [https://github.com/fdehau/](fdehau) for building `sytect` & `tui`! All code is released under the MIT License.
+Thanks to [trishume](https://github.com/trishume) and [fdehau](https://github.com/fdehau/) for building `sytect` & `tui`! All code is released under the MIT License.

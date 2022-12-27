@@ -2,7 +2,7 @@
 A lightweight translation layer between [syntect](https://github.com/trishume/syntect) and
 [tui-rs](https://github.com/fdehau/tui-rs) style types. If you're building a CLI app with a UI powered by tui.rs and need syntax highlighting, then you may find this crate useful!
 
-Given the limited scope of this crate I do not have any plans to extend its functionality any further, but am open to contributions. Feel free to fork and submit a pull request.
+Given the limited scope of this crate I do not have plans to extend existing functionality much further. However, I am open to requests and/or contributions, so feel free to fork and submit a pull request.
 
 ## Getting Started
 `syntect-tui` is [available on crates.io](https://crates.io/crates/syntect-tui). You can install it by adding the following line to your `Cargo.toml`:

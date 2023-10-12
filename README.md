@@ -1,6 +1,6 @@
 # syntect-tui [![Build Status](https://app.travis-ci.com/chanq-io/syntect-tui.svg?branch=main)](https://app.travis-ci.com/chanq-io/syntect-tui)
 A lightweight translation layer between [syntect](https://github.com/trishume/syntect) and
-[tui-rs](https://github.com/fdehau/tui-rs) style types. If you're building a CLI app with a UI powered by tui.rs and need syntax highlighting, then you may find this crate useful!
+[ratatui](https://github.com/ratatui-org/ratatui) style types. If you're building a CLI app with a UI powered by tui.rs and need syntax highlighting, then you may find this crate useful!
 
 Given the limited scope of this crate I do not have plans to extend existing functionality much further. However, I am open to requests and/or contributions, so feel free to fork and submit a pull request.
 
@@ -17,8 +17,8 @@ For more usage information read the [docs](https://docs.rs/syntect-tui/latest/sy
 ## Example Code
 Building upon [syntect's simple example](https://github.com/trishume/syntect#example-code), here's a
 snippet that parses some rust code, highlights it using syntect and converts it into
-[tui::text::Spans](https://docs.rs/tui/latest/tui/text/struct.Spans.html) ready for rendering in a tui appliction:
-```
+[ratatui::text::Line](https://docs.rs/ratatui/latest/ratatui/text/struct.Line.html) ready for rendering in a tui appliction:
+```rust
 use syntect::easy::HighlightLines;
 use syntect::parsing::SyntaxSet;
 use syntect::highlighting::{ThemeSet, Style};
@@ -44,4 +44,4 @@ for line in LinesWithEndings::from(s) { // LinesWithEndings enables use of newli
 ```
 
 ## Licence & Acknowledgements
-Thanks to [trishume](https://github.com/trishume) and [fdehau](https://github.com/fdehau/) for building `sytect` & `tui`! All code is released under the MIT License.
+Thanks to [trishume](https://github.com/trishume), [fdehau](https://github.com/fdehau/), and the [ratatui community](https://github.com/ratatui-org/ratatui) for building `sytect`, `tui`, and `ratatui`! All code is released under the MIT License.

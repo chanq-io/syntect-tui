@@ -2,7 +2,7 @@
 //!
 //! `syntect-ratatui` is a lightweight toolset for converting from text stylised by
 //! [syntect](https://docs.rs/syntect/latest/syntect) into stylised text renderable in
-//! [ratatui](https://docs.rs/ratatui/0.10.0/ratatui) applications.
+//! [ratatui](https://docs.rs/ratatui/latest/ratatui/) applications.
 //!
 //! Contributions welcome! Feel free to fork and submit a pull request.
 use custom_error::custom_error;
@@ -10,12 +10,15 @@ use custom_error::custom_error;
 custom_error! {
     #[derive(PartialEq)]
     pub SyntectTuiError
-    UnknownFontStyle { bits: u8 } = "Unable to convert syntect::FontStyle into ratatui::Modifier: unsupported bits ({bits}) value.",
+    UnknownFontStyle { bits: u8 } = "Unable to convert syntect::FontStyle into ratatui::style::Modifier: unsupported bits ({bits}) value.",
 }
 
-/// Converts a line segment highlighed using [syntect::easy::HighlightLines::highlight_line](https://docs.rs/syntect/latest/syntect/easy/struct.HighlightLines.html#method.highlight_line) into a [ratatui::text::Span](https://docs.rs/ratatui/0.10.0/ratatui/text/struct.Span.html).
+/// Converts a line segment highlighed using [syntect::easy::HighlightLines::highlight_line](https://docs.rs/syntect/latest/syntect/easy/struct.HighlightLines.html#method.highlight_line) into a [ratatui::text::Span](https://docs.rs/ratatui/latest/ratatui/text/struct.Span.html).
 ///
-/// Syntect colours are RGBA while Tui colours are RGB, so colour conversion is lossy. However, if a Syntect colour's alpha value is `0`, then we preserve this to some degree by returning a value of `None` for that colour (i.e. its colourless).
+/// Syntect colours are RGBA while Ratatui colours are RGB, so colour conversion is lossy. However, if a Syntect colour's alpha value is `0`, then we preserve this to some degree by returning a value of `None` for that colour (i.e. its colourless).
+///
+/// Additionally, [syntect::highlighting::Style](https://docs.rs/syntect/latest/syntect/highlighting/struct.Style.html) does not support underlines having a different color than the text it is applied to, unlike [ratatui::style::Style](https://docs.rs/ratatui/latest/ratatui/style/struct.Style.html).
+/// Because of this the `underline_color` is set to match the `foreground`.
 ///
 /// # Examples
 /// Basic usage:
@@ -29,7 +32,7 @@ custom_error! {
 /// let expected_style = ratatui::style::Style {
 ///     fg: Some(ratatui::style::Color::Rgb(255, 0, 0)),
 ///     bg: None,
-///     underline_color: None,
+///     underline_color: Some(ratatui::style::Color::Rgb(255, 0, 0)),
 ///     add_modifier: ratatui::style::Modifier::BOLD,
 ///     sub_modifier: ratatui::style::Modifier::empty()
 /// };
@@ -58,7 +61,7 @@ custom_error! {
 ///          .into_iter()
 ///          .filter_map(|segment| into_span(segment).ok())
 ///          .collect();
-///     let spans = ratatui::text::Spans::from(line_spans);
+///     let spans = ratatui::text::Line::from(line_spans);
 ///     print!("{:?}", spans);
 /// }
 ///
@@ -79,9 +82,9 @@ pub fn into_span<'a>(
 
 /// Converts a
 /// [syntect::highlighting::Style](https://docs.rs/syntect/latest/syntect/highlighting/struct.Style.html)
-/// into a [ratatui::style::Style](https://docs.rs/ratatui/0.10.0/ratatui/style/struct.Style.html).
+/// into a [ratatui::style::Style](https://docs.rs/ratatui/latest/ratatui/style/struct.Style.html).
 ///
-/// Syntect colours are RGBA while Tui colours are RGB, so colour conversion is lossy. However, if a Syntect colour's alpha value is `0`, then we preserve this to some degree by returning a value of `None` for that colour (i.e. its colourless).
+/// Syntect colours are RGBA while Ratatui colours are RGB, so colour conversion is lossy. However, if a Syntect colour's alpha value is `0`, then we preserve this to some degree by returning a value of `None` for that colour (i.e. its colourless).
 ///
 /// # Examples
 /// Basic usage:
@@ -94,7 +97,7 @@ pub fn into_span<'a>(
 /// let expected = ratatui::style::Style {
 ///     fg: Some(ratatui::style::Color::Rgb(255, 0, 0)),
 ///     bg: None,
-///     underline_color: None,
+///     underline_color: Some(ratatui::style::Color::Rgb(255, 0, 0)),
 ///     add_modifier: ratatui::style::Modifier::BOLD,
 ///     sub_modifier: ratatui::style::Modifier::empty()
 /// };
@@ -111,7 +114,7 @@ pub fn translate_style(
     Ok(ratatui::style::Style {
         fg: translate_colour(syntect_style.foreground),
         bg: translate_colour(syntect_style.background),
-        underline_color: None,
+        underline_color: translate_colour(syntect_style.foreground),
         add_modifier: translate_font_style(syntect_style.font_style)?,
         sub_modifier: ratatui::style::Modifier::empty(),
     })
@@ -119,7 +122,7 @@ pub fn translate_style(
 
 /// Converts a
 /// [syntect::highlighting::Color](https://docs.rs/syntect/latest/syntect/highlighting/struct.Color.html)
-/// into a [ratatui::style::Color](https://docs.rs/ratatui/0.10.0/ratatui/style/enum.Color.html).
+/// into a [ratatui::style::Color](https://docs.rs/ratatui/latest/ratatui/style/enum.Color.html).
 ///
 ///
 /// # Examples
@@ -130,7 +133,7 @@ pub fn translate_style(
 /// let actual = syntect_tui::translate_colour(input);
 /// assert_eq!(expected, actual);
 /// ```
-/// Syntect colours are RGBA while Tui colours are RGB, so colour conversion is lossy. However, if a Syntect colour's alpha value is `0`, then we preserve this to some degree by returning a value of `None` for that colour (i.e. colourless):
+/// Syntect colours are RGBA while Ratatui colours are RGB, so colour conversion is lossy. However, if a Syntect colour's alpha value is `0`, then we preserve this to some degree by returning a value of `None` for that colour (i.e. colourless):
 /// ```
 /// assert_eq!(
 ///     None,
@@ -150,7 +153,7 @@ pub fn translate_colour(
 
 /// Converts a
 /// [syntect::highlighting::FontStyle](https://docs.rs/syntect/latest/syntect/highlighting/struct.FontStyle.html)
-/// into a [ratatui::style::Modifier](https://docs.rs/ratatui/0.10.0/ratatui/style/struct.Modifier.html).
+/// into a [ratatui::style::Modifier](https://docs.rs/ratatui/latest/ratatui/style/struct.Modifier.html).
 ///
 ///
 /// # Examples
@@ -218,7 +221,7 @@ mod tests {
             style: ratatui::style::Style {
                 fg: Some(ratatui::style::Color::Rgb(r, g, b)),
                 bg: Some(ratatui::style::Color::Rgb(g, b, r)),
-                underline_color: None,
+                underline_color: Some(ratatui::style::Color::Rgb(r, g, b)),
                 add_modifier: Modifier::UNDERLINED,
                 sub_modifier: Modifier::empty(),
             },
@@ -238,6 +241,7 @@ mod tests {
         let expected = Ok(ratatui::style::Style::default()
             .fg(ratatui::style::Color::Rgb(r, g, b))
             .bg(ratatui::style::Color::Rgb(g, b, r))
+            .underline_color(ratatui::style::Color::Rgb(r, g, b))
             .add_modifier(Modifier::UNDERLINED));
         let actual = translate_style(input);
         assert_eq!(expected, actual);

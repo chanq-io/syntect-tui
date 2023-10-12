@@ -4,7 +4,7 @@ version = "1.0.1"
 edition = "2021"
 license = "MIT"
 description = "A lightweight translation layer between syntect.rs and tui.rs style types"
-authors = ["Pierre Chanquion <{FORENAME}.{FIRST_FIVE_LETTERS_OF_SURNAME}.io>"]
+authors = ["Pierre Chanquion <{FORENAME}.{FIRST_FIVE_LETTERS_OF_SURNAME}.io>", "Mick Harrigan <mharrigan328@gmail.com>"]
 
 [dependencies]
 custom_error = "1.9.2"

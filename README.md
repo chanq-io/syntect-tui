@@ -8,7 +8,7 @@ Given the limited scope of this crate I do not have plans to extend existing fun
 `syntect-tui` is [available on crates.io](https://crates.io/crates/syntect-tui). You can install it by adding the following line to your `Cargo.toml`:
 
 ```
-syntect-tui = "2.0"
+syntect-tui = "3.0"
 ```
 
 ## Docs

@@ -8,7 +8,7 @@ Given the limited scope of this crate I do not have plans to extend existing fun
 `syntect-tui` is [available on crates.io](https://crates.io/crates/syntect-tui). You can install it by adding the following line to your `Cargo.toml`:
 
 ```
-syntect-tui = "1.0"
+syntect-tui = "2.0"
 ```
 
 ## Docs
@@ -44,4 +44,10 @@ for line in LinesWithEndings::from(s) { // LinesWithEndings enables use of newli
 ```
 
 ## Licence & Acknowledgements
-Thanks to [trishume](https://github.com/trishume), [fdehau](https://github.com/fdehau/), and the [ratatui community](https://github.com/ratatui-org/ratatui) for building `sytect`, `tui`, and `ratatui`! All code is released under the MIT License.
+ All code is released under the MIT License. Thanks to [trishume](https://github.com/trishume),
+ [fdehau](https://github.com/fdehau/), and the [ratatui
+ community](https://github.com/ratatui-org/ratatui) for building `sytect`, `tui`, and `ratatui`!
+ Also a big thank you to fellow rustaceans who have contributed to the maintenance of this crate:
+
+- [depu105](https://github.com/deepu105)
+- [MickHarrigan](https://github.com/MickHarrigan)

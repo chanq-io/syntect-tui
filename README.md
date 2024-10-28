@@ -53,3 +53,4 @@ for line in LinesWithEndings::from(s) { // LinesWithEndings enables use of newli
 - [MickHarrigan](https://github.com/MickHarrigan)
 - [HamZag](https://github.com/zaghaghi)
 - [orhun](https://github.com/orhun)
+- [jvanbuel](https://github.com/jvanbuel)

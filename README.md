@@ -1,6 +1,6 @@
 # syntect-tui [![Build Status](https://app.travis-ci.com/chanq-io/syntect-tui.svg?branch=main)](https://app.travis-ci.com/chanq-io/syntect-tui)
 A lightweight translation layer between [syntect](https://github.com/trishume/syntect) and
-[ratatui](https://github.com/ratatui-org/ratatui) style types. If you're building a CLI app with a UI powered by tui.rs and need syntax highlighting, then you may find this crate useful!
+[ratatui](https://github.com/ratatui-org/ratatui) style types. If you're building a CLI app with a UI powered by Ratatui and need syntax highlighting, then you may find this crate useful!
 
 Given the limited scope of this crate I do not have plans to extend existing functionality much further. However, I am open to requests and/or contributions, so feel free to fork and submit a pull request.
 

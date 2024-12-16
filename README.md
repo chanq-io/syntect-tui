@@ -19,28 +19,36 @@ Building upon [syntect's simple example](https://github.com/trishume/syntect#exa
 snippet that parses some rust code, highlights it using syntect and converts it into
 [ratatui::text::Line](https://docs.rs/ratatui/latest/ratatui/text/struct.Line.html) ready for rendering in a tui appliction:
 ```rust
+use ratatui::text::{Line, Span};
 use syntect::easy::HighlightLines;
+use syntect::highlighting::ThemeSet;
 use syntect::parsing::SyntaxSet;
-use syntect::highlighting::{ThemeSet, Style};
 use syntect::util::LinesWithEndings;
-use syntui::into_span;
+use syntect_tui::into_span;
+
+const EXAMPLE: &str = "
+pub struct Wow {
+    hi: u64
+}
+fn blah() -> u64 {}
+";
 
 let ps = SyntaxSet::load_defaults_newlines();
 let ts = ThemeSet::load_defaults();
 let syntax = ps.find_syntax_by_extension("rs").unwrap();
 let mut h = HighlightLines::new(syntax, &ts.themes["base16-ocean.dark"]);
-let s = "pub struct Wow { hi: u64 }\nfn blah() -> u64 {}";
-for line in LinesWithEndings::from(s) { // LinesWithEndings enables use of newlines mode
-    let line_spans: Vec<tui::text::Span> =
-        h.highlight_line(line, &ps)
-         .unwrap()
-         .into_iter()
-         .filter_map(|segment| into_span(segment).ok())
-         .collect();
-    let spans = tui::text::Spans::from(line_spans);
-    print!("{:?}", spans);
-}
+for line in LinesWithEndings::from(EXAMPLE) {
+    // LinesWithEndings enables use of newlines mode
+    let spans: Vec<Span> = h
+        .highlight_line(line, &ps)
+        .unwrap()
+        .into_iter()
+        .filter_map(|segment| into_span(segment).ok())
+        .collect();
 
+    let line = Line::from(spans);
+    println!("{:?}", line);
+}
 ```
 
 ## Licence & Acknowledgements

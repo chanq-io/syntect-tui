@@ -3,7 +3,7 @@ name = "syntect-tui"
 version = "3.0.5"
 edition = "2021"
 license = "MIT"
-description = "A lightweight translation layer between syntect.rs and tui.rs style types"
+description = "A lightweight translation layer between syntect.rs and Ratatui style types"
 authors = ["Pierre Chanquion <{FORENAME}.{FIRST_FIVE_LETTERS_OF_SURNAME}.io>", "Mick Harrigan <mharrigan328@gmail.com>"]
 
 [dependencies]

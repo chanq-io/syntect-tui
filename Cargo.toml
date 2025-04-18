@@ -9,7 +9,8 @@ authors = ["Pierre Chanquion <{FORENAME}.{FIRST_FIVE_LETTERS_OF_SURNAME}.io>", "
 [dependencies]
 custom_error = "1.9.2"
 ratatui = "0.29.0"
-syntect = "5.0.0"
+syntect = { version = "5.0.0", default-features = false }
 
 [dev-dependencies]
 rstest = "0.22.0"
+syntect = { version = "5.0.0", default-features = false, features = ["parsing", "regex-onig", "default-syntaxes", "default-themes"] }

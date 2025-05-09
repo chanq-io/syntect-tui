@@ -1,6 +1,6 @@
 [package]
 name = "syntect-tui"
-version = "3.0.5"
+version = "3.0.6"
 edition = "2021"
 license = "MIT"
 description = "A lightweight translation layer between syntect.rs and Ratatui style types"

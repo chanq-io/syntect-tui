@@ -62,3 +62,4 @@ for line in LinesWithEndings::from(EXAMPLE) {
 - [HamZag](https://github.com/zaghaghi)
 - [orhun](https://github.com/orhun)
 - [jvanbuel](https://github.com/jvanbuel)
+- [chrysn](https://github.com/chrysn)

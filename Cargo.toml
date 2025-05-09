@@ -8,8 +8,17 @@ authors = ["Pierre Chanquion <{FORENAME}.{FIRST_FIVE_LETTERS_OF_SURNAME}.io>", "
 
 [dependencies]
 custom_error = "1.9.2"
-ratatui = "0.29.0"
-syntect = "5.0.0"
+ratatui = { version = "0.29.0", default-features = false, features = ["underline-color"] }
+syntect = { version = "5.0.0", default-features = false }
 
 [dev-dependencies]
 rstest = "0.22.0"
+syntect = { version = "5.0.0", default-features = false, features = ["parsing", "regex-onig", "default-syntaxes", "default-themes"] }
+
+[features]
+default = ["deep-defaults"]
+## Pulls in the default features of dependencies that were used with default
+## dependencies in syntect_tui 3.5.0. It is recommended to not rely on these
+## and enable them as they are used. This feature is provided as a default for
+## compatibility reasons, and will be removed in a future breaking version.
+deep-defaults = ["ratatui/all-widgets", "ratatui/crossterm", "ratatui/macros", "syntect/default-onig"]
